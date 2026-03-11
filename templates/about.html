@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="relative h-[400px] flex items-center justify-center overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1541510940021-1774305f259b?q=80&w=2000" 
+         class="absolute inset-0 w-full h-full object-cover" alt="Chef Cooking">
+    <div class="absolute inset-0 bg-black/70 backdrop-blur-[2px]"></div>
+    <div class="relative z-10 text-center px-4">
+        <span class="text-orange-500 uppercase tracking-[0.4em] text-[10px] font-black mb-4 block">Our Heritage</span>
+        <h1 class="text-6xl md:text-8xl font-black text-white tracking-tighter uppercase">The Story</h1>
+    </div>
+</section>
+
+<section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <div class="relative">
+                <div class="absolute -top-4 -left-4 w-24 h-24 border-t-4 border-l-4 border-red-700"></div>
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000" 
+                     class="rounded-[3rem] shadow-2xl relative z-10" alt="Plating Food">
+            </div>
+            <div>
+                <h2 class="text-4xl font-black text-stone-900 tracking-tighter uppercase mb-6">Born from Fire & Tradition</h2>
+                <p class="text-stone-600 leading-relaxed mb-6 italic">
+                    "At Kabab Hut, we believe that the best flavors come from the simplest ingredients, treated with respect and cooked over an open flame."
+                </p>
+                <p class="text-stone-500 text-sm leading-relaxed mb-8">
+                    Founded in 2010, our journey began with a single family recipe and a passion for authentic Mughlai cuisine. Today, we continue to use traditional clay ovens (Tandoors) and hand-ground spices to bring you the taste of home.
+                </p>
+                <div class="grid grid-cols-2 gap-8">
+                    <div>
+                        <span class="text-2xl font-black text-red-700 block">100%</span>
+                        <span class="text-[10px] uppercase font-bold text-stone-400 tracking-widest">Halal Ingredients</span>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black text-red-700 block">15+</span>
+                        <span class="text-[10px] uppercase font-bold text-stone-400 tracking-widest">Signature Spices</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 bg-stone-900 text-white">
+    <div class="max-w-7xl mx-auto px-8">
+        <div class="text-center mb-16">
+            <span class="text-orange-500 uppercase tracking-[0.4em] text-[10px] font-black mb-4 block">The Masters</span>
+            <h2 class="text-4xl font-black tracking-tighter uppercase">Behind the Grill</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="text-center group">
+                <div class="w-48 h-48 mx-auto rounded-full overflow-hidden mb-6 border-4 border-stone-800 group-hover:border-red-700 transition-colors">
+                    <img src="https://images.unsplash.com/photo-1583394293214-28ded15ee548?q=80&w=500" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                </div>
+                <h4 class="font-black uppercase text-lg">Chef Ahmed</h4>
+                <p class="text-stone-500 text-xs tracking-widest uppercase">Executive Chef</p>
+            </div>
+            
+            <div class="text-center group">
+                <div class="w-48 h-48 mx-auto rounded-full overflow-hidden mb-6 border-4 border-stone-800 group-hover:border-red-700 transition-colors">
+                    <img src="https://images.unsplash.com/photo-1577214411470-124ca8a5995d?q=80&w=500" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                </div>
+                <h4 class="font-black uppercase text-lg">Chef Maria</h4>
+                <p class="text-stone-500 text-xs tracking-widest uppercase">Tandoor Specialist</p>
+            </div>
+
+            <div class="text-center group">
+                <div class="w-48 h-48 mx-auto rounded-full overflow-hidden mb-6 border-4 border-stone-800 group-hover:border-red-700 transition-colors">
+                    <img src="https://images.unsplash.com/photo-1595273670150-bd0c3c392e46?q=80&w=500" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                </div>
+                <h4 class="font-black uppercase text-lg">Chef Yusuf</h4>
+                <p class="text-stone-500 text-xs tracking-widest uppercase">Spice Master</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 bg-stone-50 border-t border-stone-100">
+    <div class="max-w-7xl mx-auto px-8">
+        <div class="text-center mb-16">
+            <span class="text-orange-600 uppercase tracking-[0.4em] text-[10px] font-black mb-4 block">Guest Experiences</span>
+            <h2 class="text-4xl font-black text-stone-900 tracking-tighter uppercase">What People Say</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-stone-100 hover:shadow-md transition-shadow">
+                <div class="flex text-orange-500 mb-4 text-sm">★★★★★</div>
+                <p class="text-stone-600 italic text-sm leading-relaxed mb-6">"The Signature Goat Biryani is hands down the best in the city. Perfectly spiced and tender meat."</p>
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center font-bold text-stone-400 text-xs">SJ</div>
+                    <div>
+                        <h4 class="font-bold text-stone-900 text-xs uppercase">Sarah Johnson</h4>
+                        <span class="text-[10px] text-stone-400">Local Guide</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-stone-100 hover:shadow-md transition-shadow">
+                <div class="flex text-orange-500 mb-4 text-sm">★★★★★</div>
+                <p class="text-stone-600 italic text-sm leading-relaxed mb-6">"Fast service and the Lamb Chops were incredible. The Kashmiri Tea was a perfect way to end the meal."</p>
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center font-bold text-stone-400 text-xs">MA</div>
+                    <div>
+                        <h4 class="font-bold text-stone-900 text-xs uppercase">Michael Ahmed</h4>
+                        <span class="text-[10px] text-stone-400">Verified Customer</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-stone-100 hover:shadow-md transition-shadow">
+                <div class="flex text-orange-500 mb-4 text-sm">★★★★★</div>
+                <p class="text-stone-600 italic text-sm leading-relaxed mb-6">"Ordered the family feast for takeout. Everything was hot, fresh, and the portions were huge!"</p>
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center font-bold text-stone-400 text-xs">DK</div>
+                    <div>
+                        <h4 class="font-bold text-stone-900 text-xs uppercase">David Kim</h4>
+                        <span class="text-[10px] text-stone-400">Food Blogger</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

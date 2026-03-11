@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="min-h-[80vh] flex items-center justify-center px-4 bg-stone-50">
+    <div class="max-w-2xl w-full bg-white rounded-[4rem] p-12 md:p-24 shadow-2xl shadow-stone-200 text-center reveal border border-stone-100 relative overflow-hidden">
+        
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-orange-50 rounded-full blur-3xl -z-10 opacity-60"></div>
+
+        <div class="mb-10 inline-flex items-center justify-center w-20 h-20 rounded-full bg-orange-600 text-white shadow-xl shadow-orange-100 animate-bounce">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+            </svg>
+        </div>
+
+        <span class="text-orange-600 uppercase tracking-[0.5em] text-[10px] font-black mb-6 block">Inquiry Received</span>
+        
+        <h1 class="text-5xl md:text-6xl font-bold text-stone-900 mb-8 leading-tight">
+            We’ll take it <br> <span class="italic font-serif font-light text-orange-600">from here</span>.
+        </h1>
+        
+        <p class="text-stone-500 text-lg font-light leading-relaxed mb-12 max-w-sm mx-auto">
+            Your vision for a perfect event has been shared with our concierge team. Expect a call or email within 24 hours.
+        </p>
+
+        <div class="flex flex-col md:flex-row gap-4 justify-center">
+            <a href="/" class="bg-stone-900 text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-orange-600 transition-all shadow-xl">
+                Return Home
+            </a>
+            <a href="/menu" class="bg-white text-stone-400 border border-stone-100 px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-stone-50 transition-all">
+                Browse Menu
+            </a>
+        </div>
+
+        <div class="mt-16 pt-8 border-t border-stone-50 text-stone-300 text-[10px] uppercase tracking-widest font-bold">
+            Ref. ID: KH-{{ range(1000, 9999) | random }}
+        </div>
+    </div>
+</section>
+{% endblock %}

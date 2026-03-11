@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen kitchen-bg-smoke py-12 px-8">
+    </div>
+    
+<section class="min-h-screen pt-32 pb-24 bg-stone-50">
+    <div class="max-w-7xl mx-auto px-8">
+        
+        <header class="mb-16 flex flex-col md:flex-row justify-between items-end gap-8 reveal">
+            <div>
+                <span class="text-orange-600 font-black tracking-[0.6em] text-[10px] uppercase mb-4 block">Fulfillment Center</span>
+                <h1 class="text-6xl font-black tracking-tighter text-stone-900 leading-none">
+                    Active <span class="italic font-serif font-light text-orange-600 lowercase tracking-normal">Orders</span>
+                </h1>
+                <p id="refreshStatus" class="text-[9px] font-bold text-stone-400 uppercase tracking-widest mt-4">Monitoring Live Feed...</p>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <a href="{{ url_for('admin_inquiries') }}" class="text-stone-400 text-[10px] font-black uppercase tracking-[0.2em] hover:text-stone-900 transition-colors">View Inquiries</a>
+                <div class="h-4 w-px bg-stone-200 mx-4"></div>
+                <a href="/admin/logout" class="group flex items-center gap-3 bg-stone-900 text-white px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:bg-orange-600 transition-all shadow-xl shadow-stone-900/10">
+                    Lock Vault
+                </a>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal">
+            {% for order in orders %}
+            <div id="order-{{ order.id }}" 
+                 class="order-card bg-white rounded-[2.5rem] p-8 border border-stone-100 shadow-sm hover:shadow-xl hover:shadow-stone-900/5 transition-all group {% if order.status == 'New' %}new-order-glow{% endif %}">
+                
+                <div class="flex justify-between items-start mb-6">
+    <div>
+        <span class="text-[9px] font-black uppercase tracking-[0.3em] text-orange-600 block mb-1">Customer</span>
+        <h3 class="text-2xl font-black text-stone-900 tracking-tighter uppercase">{{ order.customer_name }}</h3>
+        
+        <span class="mt-2 inline-block text-[10px] font-mono px-2 py-1 rounded bg-stone-100 text-stone-600 uppercase">
+            Method: {{ order.payment_method }}
+        </span>
+        
+        <p class="text-stone-400 text-xs font-mono mt-1">{{ order.phone }}</p>
+    </div>
+
+
+                <div class="space-y-3 mb-8">
+                    <span class="text-[9px] font-black uppercase tracking-[0.3em] text-stone-400 block">Manifest</span>
+                    <div class="manifest-list">
+                        {# UPDATED: Changed order.items to order.order_items to fix TypeError #}
+                        {% for item in order.order_items %}
+                        <div class="flex justify-between items-center text-sm border-b border-stone-50 pb-2">
+                            <span class="text-stone-600 font-medium">{{ item.name }} <span class="text-stone-400 text-[10px]">x{{ item.quantity }}</span></span>
+                            <span class="font-bold text-stone-900">${{ "%.2f"|format(item.price * item.quantity) }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <div>
+                        <span class="text-[9px] font-black uppercase tracking-[0.3em] text-stone-400 block mb-1">Grand Total</span>
+                        <p class="order-total text-2xl font-black text-stone-900 tracking-tighter">{{ order.total_price }}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="printOrder('order-{{ order.id }}')" class="w-10 h-10 flex items-center justify-center text-stone-300 hover:text-stone-900 hover:bg-stone-200 border border-stone-100 rounded-full transition-all" title="Print Receipt">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                        </button>
+
+                        {% if order.status == 'New' %}
+                        <<form action="{{ url_for('update_order_status', id=order.id, new_status='Completed') }}" method="POST">
+                            <button class="bg-stone-900 text-white px-6 py-3 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-orange-600 transition-all">Complete</button>
+                        </form>
+                        {% endif %}
+                        
+                        <form action="{{ url_for('delete_order', id=order.id) }}" method="POST" onsubmit="return confirm('Purge order data?');">
+                            <button class="w-10 h-10 flex items-center justify-center text-stone-300 hover:text-white hover:bg-red-600 border border-stone-100 rounded-full transition-all">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-span-full py-32 text-center bg-white rounded-[3rem] border border-stone-100">
+                <p class="text-stone-300 font-serif italic text-4xl">Kitchen is quiet.</p>
+                <p class="text-stone-400 font-black uppercase tracking-[0.4em] text-[10px] mt-4">No active orders</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<audio id="orderNotification" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" preload="auto"></audio>
+
+<script>
+// --- PRINTING LOGIC ---
+function printOrder(orderId) {
+    const orderCard = document.getElementById(orderId);
+    const customer = orderCard.querySelector('h3').innerText;
+    const phone = orderCard.querySelector('p').innerText;
+    const items = orderCard.querySelector('.manifest-list').innerHTML;
+    const total = orderCard.querySelector('.order-total').innerText;
+
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+        <html>
+            <head>
+                <title>Kabab Hut - Ticket</title>
+                <style>
+                    body { font-family: 'Courier New', Courier, monospace; width: 300px; padding: 20px; color: #000; }
+                    .header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 10px; margin-bottom: 10px; }
+                    .item { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; }
+                    .total { border-top: 2px dashed #000; margin-top: 10px; padding-top: 10px; font-weight: bold; font-size: 1.2em; text-align: right; }
+                    .footer { margin-top: 20px; text-align: center; font-size: 0.8em; }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <h2>KABAB HUT</h2>
+                    <p><strong>CUSTOMER: ${customer}</strong></p>
+                    <p>TEL: ${phone}</p>
+                </div>
+                <div class="items-area">${items}</div>
+                <div class="total">TOTAL: ${total}</div>
+                <div class="footer">
+                    <p>PLACED: ${new Date().toLocaleString()}</p>
+                    <p>*** Thank You ***</p>
+                </div>
+                <script>window.onload = function() { window.print(); window.close(); }<\/script>
+            </body>
+        </html>
+    `);
+    printWindow.document.close();
+}
+
+// --- AUTO-REFRESH & NOTIFICATION LOGIC ---
+let currentOrderCount = {{ orders|length }};
+
+function checkNewOrders() {
+    fetch(window.location.href)
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newOrderCount = doc.querySelectorAll('.order-card').length;
+
+            if (newOrderCount > currentOrderCount) {
+                const sound = document.getElementById('orderNotification');
+                sound.play().catch(e => console.log("Audio playback waiting for user interaction."));
+                
+                // Refresh to show the new order card
+                setTimeout(() => { location.reload(); }, 1200);
+            }
+            
+            // Update the status timestamp
+            const now = new Date();
+            document.getElementById('refreshStatus').innerText = "Last Checked: " + now.toLocaleTimeString();
+        });
+}
+
+// Check for new orders every 30 seconds
+setInterval(checkNewOrders, 30000);
+</script>
+{% endblock %}

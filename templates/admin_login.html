@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="min-h-screen flex items-center justify-center bg-stone-950 px-8">
+    <div class="max-w-md w-full">
+        <div class="text-center mb-12">
+            <span class="text-orange-600 font-black tracking-[0.5em] text-[10px] uppercase mb-4 block">Secure Access</span>
+            <h1 class="text-4xl font-black text-white uppercase tracking-tighter">Admin <span class="italic font-serif font-light text-orange-600 lowercase">Vault</span></h1>
+        </div>
+        
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="mb-6 p-4 bg-red-900/20 border border-red-900/50 rounded-2xl text-red-500 text-[10px] font-black uppercase tracking-widest text-center animate-pulse">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        
+        <form action="/admin/login" method="POST" class="space-y-6">
+            <div class="relative">
+                <input type="password" name="password" autofocus required placeholder="Enter Secret Key" 
+                       class="w-full bg-stone-900 border border-stone-800 text-white px-6 py-4 rounded-2xl focus:border-orange-600 outline-none transition-all text-center tracking-widest">
+            </div>
+            <button type="submit" class="w-full bg-orange-600 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-white hover:text-stone-900 transition-all shadow-xl shadow-orange-600/20">
+                Unlock Dashboard
+            </button>
+        </form>
+
+        <div class="mt-12 text-center">
+            <a href="/" class="text-stone-600 text-[9px] font-black uppercase tracking-[0.3em] hover:text-orange-600 transition-colors">← Return to Restaurant</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

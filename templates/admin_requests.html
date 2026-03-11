@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="py-24 bg-stone-50 min-h-screen">
+    <div class="max-w-7xl mx-auto px-4">
+        
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <span class="text-orange-600 font-bold tracking-[0.4em] uppercase text-[10px] mb-2 block">Management</span>
+                <h1 class="text-5xl font-black text-stone-900">Catering <span class="italic font-serif font-light text-orange-600">Inquiries</span></h1>
+            </div>
+            <a href="/admin/add-menu" class="bg-stone-900 text-white px-6 py-3 rounded-full text-xs font-black uppercase tracking-widest hover:bg-orange-600 transition-all">
+                + Add Menu Item
+            </a>
+        </div>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="bg-green-100 border border-green-200 text-green-700 px-6 py-4 rounded-2xl mb-8">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <div class="bg-white rounded-[2rem] shadow-sm border border-stone-100 overflow-hidden">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-stone-900 text-white">
+                        <th class="p-6 text-[10px] uppercase tracking-widest font-black">Client</th>
+                        <th class="p-6 text-[10px] uppercase tracking-widest font-black">Event Details</th>
+                        <th class="p-6 text-[10px] uppercase tracking-widest font-black">Message</th>
+                        <th class="p-6 text-[10px] uppercase tracking-widest font-black">Status</th>
+                        <th class="p-6 text-[10px] uppercase tracking-widest font-black text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-stone-100">
+                    {% for inquiry in inquiries %}
+                    <tr class="hover:bg-stone-50/50 transition-colors">
+                        <td class="p-6">
+                            <p class="font-bold text-stone-900">{{ inquiry.name }}</p>
+                            <p class="text-xs text-stone-400">{{ inquiry.email }}</p>
+                        </td>
+                        <td class="p-6">
+                            <p class="text-sm font-medium text-stone-700">{{ inquiry.event_date }}</p>
+                            <p class="text-xs text-stone-400">{{ inquiry.guests }} Guests</p>
+                        </td>
+                        <td class="p-6">
+                            <p class="text-xs text-stone-500 max-w-xs truncate hover:whitespace-normal transition-all cursor-help">
+                                {{ inquiry.message }}
+                            </p>
+                        </td>
+                        <td class="p-6">
+                            <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter 
+                                {% if inquiry.status == 'Pending' %} bg-orange-100 text-orange-700 
+                                {% elif inquiry.status == 'Confirmed' %} bg-green-100 text-green-700 
+                                {% else %} bg-stone-100 text-stone-500 {% endif %}">
+                                {{ inquiry.status }}
+                            </span>
+                        </td>
+                        <td class="p-6 text-right space-x-2">
+                            <a href="{{ url_for('update_status', id=inquiry.id, status='Confirmed') }}" class="text-[10px] font-black text-green-600 hover:underline uppercase tracking-widest">Confirm</a>
+                            <a href="{{ url_for('delete_request', id=inquiry.id) }}" class="text-[10px] font-black text-red-400 hover:text-red-600 hover:underline uppercase tracking-widest" onclick="return confirm('Delete this inquiry?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="p-20 text-center text-stone-400 italic">No inquiries found yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

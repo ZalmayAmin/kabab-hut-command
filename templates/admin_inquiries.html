@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="min-h-screen pt-32 pb-24 bg-stone-50">
+    <div class="max-w-7xl mx-auto px-8">
+        
+        <header class="mb-16 flex flex-col md:flex-row justify-between items-end gap-8 reveal">
+            <div>
+                <span class="text-orange-600 font-black tracking-[0.6em] text-[10px] uppercase mb-4 block">Central Command</span>
+                <h1 class="text-6xl font-black tracking-tighter text-stone-900 leading-none">
+                    Lead <span class="italic font-serif font-light text-orange-600 lowercase tracking-normal">Management</span>
+                </h1>
+            </div>
+            <div class="flex gap-4 print:hidden">
+                <button onclick="window.print()" class="bg-stone-200 text-stone-900 px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:bg-stone-300 transition-all shadow-sm">
+                    Print Schedule
+                </button>
+                <a href="/admin/logout" class="bg-stone-900 text-white px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:bg-orange-600 transition-all shadow-xl">
+                    Lock Vault
+                </a>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 reveal">
+            </div>
+
+        <div class="mb-20">
+            <h2 class="text-[10px] font-black uppercase tracking-[0.4em] text-stone-400 mb-8 flex items-center gap-4">
+                <span class="w-2 h-2 rounded-full bg-orange-600 animate-pulse"></span>
+                Premium Catering Leads ({{ catering|length }})
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {% for lead in catering %}
+                <div class="bg-white p-8 rounded-[2rem] shadow-sm border border-stone-100 hover:border-orange-600/30 transition-all group relative overflow-hidden">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <span class="px-3 py-1 bg-stone-900 text-white text-[8px] font-black uppercase tracking-widest rounded-full">{{ lead['event_type'] }}</span>
+                            <h3 class="text-xl font-black text-stone-900 uppercase mt-3">{{ lead['name'] }}</h3>
+                            <p class="text-orange-600 text-[10px] font-bold">{{ lead['email'] }}</p>
+                        </div>
+                        <span class="text-[9px] font-mono text-stone-300">{{ lead['created_at'].split(' ')[0] }}</span>
+                    </div>
+
+                    <div class="flex gap-4 mb-6">
+                        <div class="flex-1 bg-stone-50 p-4 rounded-2xl border border-stone-100">
+                            <p class="text-[8px] font-black uppercase text-stone-400 mb-1 tracking-widest">Target Date</p>
+                            <p class="text-stone-900 font-bold text-sm">{{ lead['event_date'] if lead['event_date'] else 'TBD' }}</p>
+                        </div>
+                        <div class="flex-1 bg-stone-50 p-4 rounded-2xl border border-stone-100">
+                            <p class="text-[8px] font-black uppercase text-stone-400 mb-1 tracking-widest">Attendance</p>
+                            <p class="text-stone-900 font-bold text-sm">{{ lead['guest_count'] if lead['guest_count'] else 'N/A' }} Guests</p>
+                        </div>
+                    </div>
+
+                    <p class="text-stone-500 text-sm font-light italic leading-relaxed mb-8">"{{ lead['message'] }}"</p>
+                    
+                    <div class="flex items-center justify-between border-t border-stone-50 pt-6">
+                        <div class="flex items-center gap-6">
+                            <form action="{{ url_for('toggle_status', id=lead['id']) }}" method="POST">
+                                <button type="submit" class="status-btn text-[9px] font-black uppercase tracking-widest {% if lead['status'] == 'Pending' %}text-orange-600{% else %}text-stone-300{% endif %}">
+                                    ● {{ lead['status'] }}
+                                </button>
+                            </form>
+                        </div>
+
+                        <a href="mailto:{{ lead['email'] }}?subject=Kabab Hut Inquiry" 
+                           onclick="setTimeout(() => markAsContacted('{{ lead['id'] }}', this), 500)"
+                           class="text-orange-600 text-[10px] font-black uppercase tracking-widest cursor-pointer">
+                           Reply
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div>
+            <h2 class="text-[10px] font-black uppercase tracking-[0.4em] text-stone-400 mb-8">General Inquiries ({{ general|length }})</h2>
+            <div class="bg-white rounded-[2rem] shadow-sm border border-stone-100 overflow-hidden">
+                <table class="w-full text-left">
+                    <tbody class="divide-y divide-stone-50">
+                        {% for item in general %}
+                        <tr class="hover:bg-stone-50/50 transition-all group">
+                            <td class="p-6 text-[10px] font-mono text-stone-300 w-32">{{ item['created_at'].split(' ')[0] }}</td>
+                            <td class="p-6 font-black text-stone-900 uppercase text-xs w-48">{{ item['name'] }}</td>
+                            <td class="p-6 text-stone-500 text-xs font-light italic truncate max-w-xs">"{{ item['message'] }}"</td>
+                            <td class="p-6 text-right">
+                                <a href="mailto:{{ item['email'] }}?subject=Kabab Hut Inquiry" 
+                                   onclick="setTimeout(() => markAsContacted('{{ item['id'] }}', this), 500)"
+                                   class="text-orange-600 text-[10px] font-black uppercase tracking-widest cursor-pointer">
+                                    Reply
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+function markAsContacted(id, element) {
+    fetch(`/admin/inquiry/toggle/${id}`, { 
+        method: 'POST',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(response => {
+        if (response.ok) {
+            // Update Catering Card Status
+            const card = element.closest('.bg-white');
+            if (card) {
+                const statusBtn = card.querySelector('.status-btn');
+                if (statusBtn) {
+                    statusBtn.innerHTML = '● CONTACTED';
+                    statusBtn.classList.replace('text-orange-600', 'text-stone-300');
+                }
+            }
+            // Update Reply Link text
+            element.innerText = "REPLIED";
+            element.classList.replace('text-orange-600', 'text-stone-400');
+        }
+    })
+    .catch(err => console.error("Update failed:", err));
+}
+</script>
+<style>
+@media print {
+    /* 1. Hide the Dashboard Header, Nav, and Stat Cards */
+    nav, header, .mb-16.grid, footer {
+        display: none !important;
+    }
+
+    /* 2. Hide the General Inquiries Section specifically */
+    /* This looks for the second H2 and everything following it */
+    h2:nth-of-type(2), 
+    h2:nth-of-type(2) ~ div {
+        display: none !important;
+    }
+
+    /* 3. Reset Section and Container to show the leads */
+    section {
+        padding: 0 !important;
+        background: white !important;
+    }
+
+    .max-w-7xl {
+        max-width: none !important;
+        width: 100% !important;
+    }
+
+    /* 4. Formatting the Leads */
+    .grid {
+        display: block !important; /* Forces cards to stack vertically */
+    }
+
+    .bg-white {
+        border: 1px solid #000 !important;
+        margin-bottom: 20px !important;
+        padding: 20px !important;
+        break-inside: avoid !important;
+        box-shadow: none !important;
+        background-color: white !important;
+    }
+
+    /* 5. Hide buttons/actions so the kitchen doesn't see them */
+    .status-btn, 
+    form, 
+    a, 
+    svg {
+        display: none !important;
+    }
+}
+</style>
+{% endblock %}

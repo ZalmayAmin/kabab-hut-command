@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="min-h-screen pt-32 pb-24 relative overflow-hidden flex items-center justify-center">
+    
+    <div class="absolute inset-0 z-0">
+        <img src="https://static.vecteezy.com/system/resources/thumbnails/060/845/253/small/close-up-of-steak-cooking-on-a-grill-with-flames-and-glowing-coals-in-a-dark-outdoor-setting-photo.jpg" 
+             class="w-full h-full object-cover" 
+             alt="Restaurant Ambience">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-[2px]"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-8 relative z-10 w-full">
+        <div class="bg-stone-900/40 p-12 rounded-[3rem] border border-white/10 backdrop-blur-xl shadow-2xl">
+            
+            <header class="mb-12 text-center">
+                <span class="text-orange-600 font-black tracking-[0.6em] text-[10px] uppercase mb-4 block">Get In Touch</span>
+                <h2 class="text-5xl font-black text-white tracking-tighter">Contact <span class="italic font-serif font-light text-orange-600 lowercase">Us</span></h2>
+            </header>
+
+            <form action="/submit_inquiry" method="POST">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="group space-y-2">
+            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 group-focus-within:text-orange-600">Full Name</label>
+            <input type="text" name="name" required class="w-full bg-transparent border-b border-stone-700 py-4 focus:border-orange-600 outline-none text-white transition-all">
+        </div>
+        <div class="group space-y-2">
+            <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 group-focus-within:text-orange-600">Email Address</label>
+            <input type="email" name="email" required class="w-full bg-transparent border-b border-stone-700 py-4 focus:border-orange-600 outline-none text-white transition-all">
+        </div>
+    </div>
+    
+    <div class="group space-y-2 mt-8"> <label class="text-[10px] font-black uppercase tracking-widest text-stone-400 group-focus-within:text-orange-600">Your Message</label>
+        <textarea name="message" rows="4" required class="w-full bg-transparent border-b border-stone-700 py-4 focus:border-orange-600 outline-none text-white transition-all resize-none"></textarea>
+    </div>
+
+    <button type="submit" class="w-full bg-orange-600 text-white font-black uppercase tracking-widest py-6 rounded-2xl hover:bg-white hover:text-orange-600 transition-all shadow-xl mt-8">
+        Send Message
+    </button>
+</form>
+        </div>
+    </div>
+</section>
+{% endblock %}

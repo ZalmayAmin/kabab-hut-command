@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="min-h-screen pt-32 pb-24 bg-stone-50">
+    <div class="max-w-2xl mx-auto px-8">
+        <div class="bg-white rounded-[3rem] p-12 shadow-xl border border-stone-100">
+            <span class="text-orange-600 font-black tracking-[0.4em] text-[10px] uppercase mb-4 block text-center">Live Status</span>
+            <h1 class="text-4xl font-black text-stone-900 text-center uppercase tracking-tighter mb-12">Order #HUT-{{ order.id }}</h1>
+
+            <div class="relative flex justify-between mb-16">
+                <div class="absolute top-1/2 left-0 w-full h-1 bg-stone-100 -translate-y-1/2 z-0"></div>
+                <div class="absolute top-1/2 left-0 h-1 bg-orange-600 -translate-y-1/2 z-0 transition-all duration-1000" 
+                     style="width: {% if order.status == 'New' %}33%{% elif order.status == 'Preparing' %}66%{% else %}100%{% endif %};"></div>
+
+                <div class="relative z-10 flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full {% if order.status in ['New', 'Preparing', 'Completed'] %}bg-orange-600 text-white{% else %}bg-stone-200{% endif %} flex items-center justify-center font-bold">1</div>
+                    <span class="text-[9px] font-black uppercase mt-2">Received</span>
+                </div>
+                <div class="relative z-10 flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full {% if order.status in ['Preparing', 'Completed'] %}bg-orange-600 text-white{% else %}bg-stone-200{% endif %} flex items-center justify-center font-bold">2</div>
+                    <span class="text-[9px] font-black uppercase mt-2">Kitchen</span>
+                </div>
+                <div class="relative z-10 flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-full {% if order.status == 'Completed' %}bg-orange-600 text-white{% else %}bg-stone-200{% endif %} flex items-center justify-center font-bold">3</div>
+                    <span class="text-[9px] font-black uppercase mt-2">Ready</span>
+                </div>
+            </div>
+
+            <div class="border-t border-stone-100 pt-8">
+                <h3 class="text-xs font-black uppercase tracking-widest text-stone-400 mb-4">Order Summary</h3>
+                {% for item in order.items %}
+                <div class="flex justify-between mb-2">
+                    <span class="text-stone-600 text-sm">{{ item.quantity }}x {{ item.name }}</span>
+                    <span class="text-stone-900 font-bold">${{ item.price }}</span>
+                </div>
+                {% endfor %}
+                <div class="mt-6 pt-6 border-t border-stone-100 flex justify-between items-center">
+                    <span class="text-lg font-black uppercase">Total</span>
+                    <span class="text-2xl font-black text-orange-600">{{ order.total_price }}</span>
+                </div>
+            </div>
+            
+            <button onclick="location.reload()" class="w-full mt-10 py-4 bg-stone-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-orange-600 transition-all">
+                Refresh Status
+            </button>
+        </div>
+    </div>
+</section>
+{% endblock %}

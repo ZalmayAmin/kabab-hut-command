@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Kabab Hut | The Art of Charcoal{% endblock %}</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-white text-stone-900 selection:bg-orange-100 selection:text-orange-900">
+    
+    <nav class="fixed w-full z-50 bg-stone-900/95 backdrop-blur-lg border-b border-white/5 py-6">
+    <div class="max-w-7xl mx-auto px-8 flex justify-between items-center">
+        <a href="/" class="text-2xl font-black tracking-[-0.02em] uppercase flex items-center text-white shrink-0">
+            KABAB&nbsp;<span class="text-orange-600 italic font-serif lowercase tracking-normal font-light">hut</span>
+        </a>
+        
+        <div class="hidden md:flex items-center gap-10">
+            <a href="/" class="text-[11px] font-black uppercase tracking-[0.3em] {% if request.path == '/' %}text-white{% else %}text-stone-400{% endif %} hover:text-white transition-all">Home</a>
+            <a href="/menu" class="text-[11px] font-black uppercase tracking-[0.3em] {% if request.path == '/menu' %}text-white{% else %}text-stone-400{% endif %} hover:text-white transition-all">Menu</a>
+            <a href="/catering" class="text-[11px] font-black uppercase tracking-[0.3em] {% if request.path == '/catering' %}text-white{% else %}text-stone-400{% endif %} hover:text-white transition-all">Catering</a>
+            <a href="/contact" class="text-[11px] font-black uppercase tracking-[0.3em] {% if request.path == '/contact' %}text-white{% else %}text-stone-400{% endif %} hover:text-white transition-all">Contact</a>
+            
+            {% if session.get('admin_logged_in') %}
+            <div class="relative group ml-4 border-l border-white/10 pl-10">
+                <button class="text-[11px] font-black uppercase tracking-[0.3em] text-orange-500 flex items-center gap-2">
+                    Command <span class="text-[8px]">▼</span>
+                </button>
+                <div class="absolute top-full left-0 mt-0 w-56 pt-2 hidden group-hover:block z-50">
+                    <div class="bg-stone-900 border border-white/10 rounded-2xl shadow-2xl py-4 backdrop-blur-xl">
+                        <a href="{{ url_for('admin_orders') }}" class="flex justify-between items-center px-6 py-3 text-[10px] font-black uppercase tracking-widest text-stone-400 hover:text-white hover:bg-white/5">
+                            Orders <span class="bg-orange-600 text-[8px] px-2 py-0.5 rounded-full text-white">Live</span>
+                        </a>
+                        <a href="{{ url_for('kitchen_dashboard') }}" class="block px-6 py-3 text-[10px] font-black uppercase tracking-widest text-stone-400 hover:text-white hover:bg-white/5">Kitchen View</a>
+                        <a href="{{ url_for('admin_menu') }}" class="block px-6 py-3 text-[10px] font-black uppercase tracking-widest text-stone-400 hover:text-white hover:bg-white/5">Menu Editor</a>
+                        <div class="my-2 border-t border-white/5"></div>
+                        <a href="{{ url_for('admin_logout') }}" class="block px-6 py-3 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-500/10">Logout</a>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="hidden md:block shrink-0">
+            <a id="navOrderBtn" href="/menu" class="bg-orange-600 text-white px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-stone-900 transition-all shadow-lg shadow-orange-600/20 animate-glow">
+                Order Online
+            </a>
+        </div>
+    </div>
+</nav>
+
+    <div class="fixed top-24 left-1/2 -translate-x-1/2 z-[100] w-full max-w-md px-4 pointer-events-none">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="bg-stone-900 border border-orange-600/30 text-white p-5 rounded-2xl shadow-2xl flex justify-between items-center animate-toast mb-4 backdrop-blur-xl pointer-events-auto">
+                <div class="flex items-center gap-4">
+                    <div class="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
+                    <span class="text-[10px] font-black uppercase tracking-widest">{{ message }}</span>
+                </div>
+                <button onclick="this.parentElement.remove()" class="text-stone-500 hover:text-white transition-colors">✕</button>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+    </div>
+
+    <main class="min-h-screen">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-[#0a0a0a] text-white pt-24 pb-12 border-t border-stone-900">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-16 items-start">
+                <div class="space-y-8">
+                    <a href="/" class="text-3xl font-black tracking-[-0.02em] uppercase inline-block">
+                        KABAB&nbsp;<span class="text-orange-600 italic font-serif lowercase tracking-normal font-light ml-1">hut</span>
+                    </a>
+                    <p class="text-stone-500 text-[12px] leading-relaxed font-light max-w-[280px]">
+                        The art of organic charcoal grilling. A fifteen-year legacy of authentic Pakistani flavors.
+                    </p>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-black uppercase tracking-[0.4em] text-orange-600 mb-6">Concierge</span>
+                    <p class="text-3xl font-black tracking-tighter mb-2 text-white">(555) 123-4567</p>
+                    <p class="text-stone-500 text-sm font-light">Daily 11am — 11pm</p>
+                </div>
+                <div class="md:pl-12">
+                    <span class="text-[10px] font-black uppercase tracking-[0.4em] text-stone-600 mb-6 block">Navigation</span>
+                   <ul class="space-y-4">
+                        <li><a href="/" class="text-[11px] font-black uppercase tracking-[0.2em] text-stone-400 hover:text-white">Home</a></li>
+                        <li><a href="/menu" class="text-[11px] font-black uppercase tracking-[0.2em] text-stone-400 hover:text-white">The Menu</a></li>
+                        <li><a href="/catering" class="text-[11px] font-black uppercase tracking-[0.2em] text-stone-400 hover:text-white">Catering</a></li>
+                        <li><a href="/contact" class="text-[11px] font-black uppercase tracking-[0.2em] text-stone-400 hover:text-white">Contact</a></li>
+                        <li><a href="{{ url_for('admin_login') }}" class="text-[11px] font-black uppercase tracking-[0.2em] text-stone-700 hover:text-orange-600 transition-colors">Staff Portal</a></li>
+                   </ul>
+                </div>
+                <div class="space-y-8">
+                    <div>
+                        <span class="text-orange-600 text-[10px] font-black uppercase tracking-widest mb-3 block">Headquarters</span>
+                        <p class="text-sm font-light text-stone-300">456 Artisan Way, NY 10012</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/5 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+    <p class="text-stone-500 text-[10px] uppercase tracking-[0.3em]">
+        © 2026 KABAB HUT ORGANIC CHARCOAL GRILL
+    </p>
+
+    <div class="flex items-center gap-6 opacity-40 hover:opacity-100 transition-opacity duration-500">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" 
+             alt="Visa" class="h-3 w-auto filter grayscale brightness-200">
+        
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" 
+             alt="Mastercard" class="h-5 w-auto filter grayscale brightness-200">
+             
+        <span class="text-[8px] text-stone-600 font-bold uppercase tracking-[0.2em] ml-2 border-l border-white/10 pl-4">
+            Secure Checkout
+        </span>
+    </div>
+</div>
+    </footer>
+
+    <script>
+        // Reveal on scroll logic
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.1 });
+
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            updateNavCart();
+            
+            // Auto-hide toast messages
+            setTimeout(() => {
+                document.querySelectorAll('.animate-toast').forEach(t => {
+                    t.style.opacity = '0';
+                    t.style.transform = 'translateY(-20px)';
+                    t.style.transition = 'all 0.6s ease';
+                    setTimeout(() => t.remove(), 600);
+                });
+            }, 4000);
+        });
+
+        // FIXED CART LOGIC
+        function updateNavCart() {
+            const cart = JSON.parse(localStorage.getItem('kabab_cart') || '{}');
+            const totalItems = Object.values(cart).reduce((acc, item) => acc + item.qty, 0);
+            const btn = document.getElementById('navOrderBtn');
+            
+            if (btn && totalItems > 0) {
+                btn.innerHTML = `View Order (${totalItems})`;
+                
+                // FIXED: Changed from /menu to /checkout so you don't get stuck in a loop
+                btn.href = "/checkout"; 
+                
+                btn.classList.add('bg-white', 'text-stone-900');
+                btn.classList.remove('bg-orange-600', 'text-white', 'animate-glow');
+            } else if (btn) {
+                // Reset if cart is empty
+                btn.innerHTML = `Order Online`;
+                btn.href = "/menu";
+                btn.classList.add('bg-orange-600', 'text-white', 'animate-glow');
+                btn.classList.remove('bg-white', 'text-stone-900');
+            }
+        }
+
+        // Listen for storage changes (if user adds to cart in another tab)
+        window.addEventListener('storage', updateNavCart);
+    </script>
+</body>
+</html>

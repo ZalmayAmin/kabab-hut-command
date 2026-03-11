@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="relative h-[92vh] flex items-center justify-center overflow-hidden bg-stone-900">
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1603360946369-dc9bb6258143?q=80&w=2000" 
+             class="w-full h-full object-cover opacity-50 scale-105" alt="Sizzling Charcoal Grill">
+    </div>
+    
+    <div class="relative z-10 text-center px-4 max-w-5xl">
+        <span class="text-orange-500 uppercase tracking-[0.6em] text-xs font-black mb-6 block">Established 2011</span>
+        <h1 class="text-6xl md:text-9xl font-black text-white mb-8 leading-none tracking-tighter">
+            THE ART OF <br> 
+            <span class="italic text-orange-600 font-serif font-light lowercase tracking-normal">charcoal</span>
+        </h1>
+        <p class="text-stone-300 text-lg md:text-xl mb-12 max-w-2xl mx-auto leading-relaxed font-light">
+            Authentic Pakistani flavors refined for the modern palate. Smoke, spice, and tradition in every bite.
+        </p>
+        <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+            <a href="/menu" class="bg-orange-600 text-white px-12 py-5 rounded-full font-bold transition-all duration-500 hover:bg-white hover:text-stone-900 shadow-2xl hover:scale-105">
+                Explore the Menu
+            </a>
+            <a href="/contact" class="text-white font-bold border-b-2 border-orange-600 pb-1 hover:text-orange-600 transition-all">
+                Catering Inquiries
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 bg-stone-50 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center gap-16 md:gap-24">
+            <div class="w-full md:w-1/2 reveal">
+                <div class="relative">
+                    <div class="absolute -inset-4 border border-stone-200 rounded-[3rem] -z-10 translate-x-4 translate-y-4"></div>
+                    <img src="https://thegujaratikitchen.com/cdn/shop/products/5_1445x.jpg?v=1747965537" 
+                         class="rounded-[3rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 h-[600px] w-full object-cover" 
+                         alt="Fifteen Years of Flame">
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 reveal">
+                <span class="text-orange-600 font-bold tracking-[0.4em] uppercase text-[10px] mb-6 block">Fifteen Years of Flame</span>
+                <h2 class="text-5xl md:text-6xl font-black text-stone-900 mb-8 leading-tight">Tradition <br> <span class="italic font-serif font-light text-orange-600 lowercase tracking-normal">reimagined.</span></h2>
+                <p class="text-stone-500 text-lg leading-relaxed mb-6 font-light">
+                    Kabab Hut is a traditional Pakistani restaurant known for high-quality and authentic halal food. We are a family-owned business for more than 15 years in the United States.
+                </p>
+                <p class="text-stone-500 text-lg leading-relaxed mb-10 font-light">
+                    Our secret? Organic charcoal and the patience to let the flame do the work.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 bg-stone-900 text-white overflow-hidden">
+    <div class="max-w-7xl mx-auto px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+            <div class="reveal">
+                <span class="text-orange-600 text-3xl font-serif italic mb-6 block">01</span>
+                <h4 class="text-xl font-black uppercase tracking-widest mb-4">The Ember</h4>
+                <p class="text-stone-400 font-light leading-relaxed">We use only 100% organic lump charcoal. No chemicals, just pure heat that imparts a clean, unmistakable smokiness.</p>
+            </div>
+            <div class="reveal" style="transition-delay: 0.2s;">
+                <span class="text-orange-600 text-3xl font-serif italic mb-6 block">02</span>
+                <h4 class="text-xl font-black uppercase tracking-widest mb-4">The Spice</h4>
+                <p class="text-stone-400 font-light leading-relaxed">Our spices are hand-ground weekly. We toast each seed to release the essential oils before blending them into our secret marinades.</p>
+            </div>
+            <div class="reveal" style="transition-delay: 0.4s;">
+                <span class="text-orange-600 text-3xl font-serif italic mb-6 block">03</span>
+                <h4 class="text-xl font-black uppercase tracking-widest mb-4">The Patience</h4>
+                <p class="text-stone-400 font-light leading-relaxed">True kabab is never rushed. We let the meat rest, then grill it slowly over indirect heat until it reaches the perfect charred edge.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-24 bg-white">
+    
+         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12">
+    <div onclick="openFoodPopUp('Beef Seekh Kabab', 'Prime ground beef infused with bird\'s eye chili and our 12-spice blend.', 18, 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1', 'Signature Skewers', 'True')" 
+         class="cursor-pointer group flex items-center gap-6 bg-white p-6 rounded-[2rem] shadow-sm hover:shadow-xl transition-all border border-stone-50">
+        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1" class="w-32 h-32 object-cover rounded-2xl" alt="Beef Seekh Kabab">
+        <div class="flex-grow">
+            <div class="flex justify-between items-start">
+                <h4 class="font-black text-xl uppercase tracking-tighter group-hover:text-orange-600 transition-colors">Beef Seekh Kabab</h4>
+                <span class="text-orange-600 font-serif italic text-lg">$18</span>
+            </div>
+            <p class="text-stone-500 text-sm font-light mt-1">Charred over oak embers. Infused with bird's eye chili.</p>
+            <span class="inline-block mt-3 text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1 bg-stone-100 rounded-full">Best Seller</span>
+        </div>
+    </div>
+
+    <div onclick="openFoodPopUp('Lamb Chops', 'Rib chops marinated for 24 hours in yogurt and ginger. Finished with a smoky glaze.', 28, 'https://images.unsplash.com/photo-1544025162-d76694265947', 'Signature Skewers', 'True')" 
+         class="cursor-pointer group flex items-center gap-6 bg-white p-6 rounded-[2rem] shadow-sm hover:shadow-xl transition-all border border-stone-50">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947" class="w-32 h-32 object-cover rounded-2xl" alt="Lamb Chops">
+        <div class="flex-grow">
+            <div class="flex justify-between items-start">
+                <h4 class="font-black text-xl uppercase tracking-tighter group-hover:text-orange-600 transition-colors">Lamb Chops</h4>
+                <span class="text-orange-600 font-serif italic text-lg">$28</span>
+            </div>
+            <p class="text-stone-500 text-sm font-light mt-1">Marinated for 24 hours in yogurt and ginger.</p>
+            <span class="inline-block mt-3 text-[9px] font-black uppercase tracking-[0.2em] px-3 py-1 bg-stone-100 rounded-full">Signature Dish</span>
+        </div>
+    </div>
+</div>
+    
+    <div class="text-center mt-16">
+        <a href="/menu" class="text-[11px] font-black uppercase tracking-[0.4em] text-stone-400 hover:text-orange-600 transition-colors border-b border-stone-200 pb-2">View Full Menu</a>
+    </div>
+</section>
+
+<section class="py-24 bg-stone-50 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center gap-16 md:gap-24">
+            <div class="w-full md:w-1/2 reveal">
+                <a href="/contact" class="relative block group">
+                    <div class="absolute -inset-4 border border-stone-200 rounded-[3rem] -z-10 translate-x-4 translate-y-4"></div>
+                    <img src="https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=1200" 
+                         class="rounded-[3rem] shadow-2xl transition-all duration-700 h-[600px] w-full object-cover group-hover:brightness-75" 
+                         alt="Catering Display">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="bg-white text-stone-900 px-8 py-3 rounded-full font-black uppercase tracking-widest text-[10px]">Inquire Now</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="w-full md:w-1/2 reveal">
+                <span class="text-orange-600 font-bold tracking-[0.4em] uppercase text-[10px] mb-6 block">Premium Events</span>
+                <h2 class="text-5xl md:text-6xl font-black text-stone-900 mb-8 leading-tight">
+                    Bring the <span class="italic font-serif font-light text-orange-600 lowercase tracking-normal">fire</span> <br> to your table.
+                </h2>
+                <p class="text-stone-500 text-lg leading-relaxed mb-10 font-light">
+                    From corporate galas to intimate garden weddings, we bring our signature live-fire charcoal experience to you.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6">
+                    <a href="/contact" class="bg-stone-900 text-white px-10 py-5 rounded-full font-black uppercase tracking-widest text-[10px] hover:bg-orange-600 transition-all shadow-xl text-center">
+                        Request Catering Quote
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="foodModalOverlay" class="fixed inset-0 bg-stone-900/60 backdrop-blur-xl z-[110] hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-4xl rounded-[3rem] overflow-hidden shadow-2xl relative">
+        <button onclick="closeFoodPopUp()" class="absolute top-8 right-8 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg text-stone-900 z-10 hover:bg-orange-600 hover:text-white transition-all">✕</button>
+        <div class="flex flex-col md:flex-row">
+            <div class="md:w-1/2">
+                <img id="modalImg" src="" class="w-full h-full object-cover aspect-square">
+            </div>
+            <div class="md:w-1/2 p-16 bg-white">
+                <span id="modalCat" class="text-orange-600 text-[10px] font-black uppercase tracking-[0.4em] mb-4 block">Category</span>
+                <h3 id="modalName" class="text-5xl font-black text-stone-900 uppercase tracking-tighter mb-6">Item Name</h3>
+                <p id="modalDesc" class="text-stone-500 font-light mb-12">Description.</p>
+                <div class="flex items-center justify-between pt-10 border-t border-stone-100">
+                    <span id="modalPrice" class="text-3xl font-black text-stone-900 tracking-tighter">$0.00</span>
+                    <button id="modalAddBtn" class="bg-stone-900 text-white px-10 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-orange-600 transition-all">Add to Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. Scroll Reveal Animation
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('active');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // 2. Pop-Up Logic
+    function openFoodPopUp(name, desc, price, img, cat, available) {
+        document.getElementById('modalName').innerText = name;
+        document.getElementById('modalDesc').innerText = desc;
+        document.getElementById('modalPrice').innerText = "$" + parseFloat(price).toFixed(2);
+        document.getElementById('modalImg').src = img;
+        document.getElementById('modalCat').innerText = cat;
+        
+        // Setup the "Add to Order" button click
+        document.getElementById('modalAddBtn').onclick = function() {
+            addToCart(name, price);
+            closeFoodPopUp();
+        };
+
+        document.getElementById('foodModalOverlay').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeFoodPopUp() {
+        document.getElementById('foodModalOverlay').classList.add('hidden');
+        document.body.style.overflow = 'auto';
+    }
+
+    // 3. Cart Logic
+    function addToCart(name, price) {
+        let cart = JSON.parse(localStorage.getItem('kabab_cart') || '{}');
+        if (cart[name]) {
+            cart[name].qty += 1;
+        } else {
+            cart[name] = { price: parseFloat(price), qty: 1 };
+        }
+        localStorage.setItem('kabab_cart', JSON.stringify(cart));
+        
+        // Alert the user and update nav if function exists
+        alert(name + " added to your order!");
+        if (typeof updateNavCart === "function") updateNavCart();
+    }
+</script>
+<section class="py-32 bg-stone-900 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-8">
+        
+        <div class="text-center mb-20">
+            <span class="text-orange-600 font-black tracking-[0.4em] text-[10px] uppercase block mb-4">Guest Experience</span>
+            <h2 class="text-5xl font-black text-white uppercase tracking-tighter">Voices of the <span class="italic font-serif font-light text-orange-600 lowercase">Hut</span></h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            
+            <div class="space-y-6 reveal">
+                <div class="flex text-orange-600 text-xs gap-1">
+                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <p class="text-stone-300 text-lg font-light leading-relaxed font-serif italic">
+                    "The smoky aroma hits you before you even walk in. The Seekh Kababs are, without a doubt, the most authentic I've had outside of Lahore."
+                </p>
+                <div class="pt-4 border-t border-white/5">
+                    <span class="text-white font-black text-[10px] uppercase tracking-widest block">Jameson K.</span>
+                    <span class="text-stone-500 text-[10px] uppercase tracking-widest">Food Critic, NY Times</span>
+                </div>
+            </div>
+
+            <div class="space-y-6 reveal">
+                <div class="flex text-orange-600 text-xs gap-1">
+                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <p class="text-stone-300 text-lg font-light leading-relaxed font-serif italic">
+                    "A masterpiece of charcoal grilling. They understand the balance of spices and heat perfectly. The Lamb Chops are non-negotiable."
+                </p>
+                <div class="pt-4 border-t border-white/5">
+                    <span class="text-white font-black text-[10px] uppercase tracking-widest block">Sarah L.</span>
+                    <span class="text-stone-500 text-[10px] uppercase tracking-widest">Executive Chef</span>
+                </div>
+            </div>
+
+            <div class="space-y-6 reveal">
+                <div class="flex text-orange-600 text-xs gap-1">
+                    <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                </div>
+                <p class="text-stone-300 text-lg font-light leading-relaxed font-serif italic">
+                    "Finally, a place that values the art of the fire. The atmosphere is moody, the food is exceptional, and the service is elite."
+                </p>
+                <div class="pt-4 border-t border-white/5">
+                    <span class="text-white font-black text-[10px] uppercase tracking-widest block">Marcus V.</span>
+                    <span class="text-stone-500 text-[10px] uppercase tracking-widest">Hospitality Group CEO</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

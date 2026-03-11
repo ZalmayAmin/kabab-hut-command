@@ -1,0 +1,127 @@
+/* --- Core Typography & Behavior --- */
+body { 
+    font-family: 'Inter', sans-serif; 
+    scroll-behavior: smooth; 
+}
+
+.font-serif { 
+    font-family: 'Playfair Display', serif; 
+}
+
+.tracking-premium { 
+    letter-spacing: 0.3em; 
+}
+
+/* --- Scroll Animations --- */
+.reveal { 
+    opacity: 0; 
+    transform: translateY(30px); 
+    transition: all 0.8s ease-out; 
+}
+
+.reveal.active { 
+    opacity: 1; 
+    transform: translateY(0); 
+}
+
+/* --- Toast Notification Animations --- */
+@keyframes slideDown {
+    from { transform: translate(-50%, -100%); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+.animate-toast { 
+    animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+}
+
+/* --- Branding & UI Glows --- */
+@keyframes coal-glow {
+    0%, 100% { box-shadow: 0 0 15px -2px rgba(234, 88, 12, 0.4); }
+    50% { box-shadow: 0 0 25px 2px rgba(234, 88, 12, 0.75); transform: scale(1.02); }
+}
+
+.animate-glow { 
+    animation: coal-glow 3s ease-in-out infinite; 
+}
+
+/* --- Admin: New Order Pulse Effect --- */
+@keyframes pulse-orange {
+    0% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.4); }
+    70% { box-shadow: 0 0 0 20px rgba(234, 88, 12, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
+}
+
+.new-order-glow {
+    animation: pulse-orange 2s infinite !important;
+    border: 2px solid #ea580c !important;
+    background-color: #fffaf8 !important; /* Adds a subtle warm tint */
+}
+
+/* --- Menu: Sold Out Logic --- */
+.item-sold-out { 
+    filter: grayscale(1); 
+    opacity: 0.6; 
+    pointer-events: none; 
+    position: relative;
+}
+
+.item-sold-out::after {
+    content: "SOLD OUT";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    background: #ea580c;
+    color: white;
+    padding: 4px 12px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+@keyframes slideDown {
+    from { transform: translate(-50%, -100%); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+.animate-toast { 
+    /* This matches your Tailwind left-1/2 -translate-x-1/2 */
+    animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+}
+
+/* Elegant Moody Background for Admin Pages */
+.admin-bg-elegant {
+    background: 
+        linear-gradient(rgba(28, 25, 23, 0.95), rgba(28, 25, 23, 0.95)),
+        url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=2074&auto=format&fit=crop'); /* Professional Kitchen Blur */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Optional: A "Smoke" overlay for the Kitchen View */
+.kitchen-bg-smoke {
+    background: 
+        linear-gradient(rgba(12, 10, 9, 0.9), rgba(12, 10, 9, 0.9)),
+        url('https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?q=80&w=2070&auto=format&fit=crop'); /* Fire/Charcoal Texture */
+    background-size: cover;
+    background-attachment: fixed;
+}
+@media (max-width: 768px) {
+    .admin-bg-elegant, .kitchen-bg-smoke {
+        background-attachment: scroll; /* Better performance on mobile devices */
+    }
+}
+/* Makes the "Sold Out" text look like a stamped label */
+.item-sold-out::after {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+/* Temporary fix if reviews are invisible */
+.reveal { 
+    opacity: 1 !important; 
+    transform: translateY(0) !important; 
+}

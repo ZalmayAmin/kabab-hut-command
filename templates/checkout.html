@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="min-h-screen pt-32 pb-24 relative overflow-hidden bg-stone-900">
+    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2000" 
+         class="absolute inset-0 w-full h-full object-cover opacity-40 scale-105" alt="Background">
+    
+    <div class="absolute inset-0 bg-gradient-to-b from-stone-900/80 via-stone-900/40 to-stone-900"></div>
+
+    <div class="max-w-3xl mx-auto px-8 relative z-10">
+        <header class="mb-12 reveal">
+            <span class="text-orange-500 font-black tracking-[0.6em] text-[10px] uppercase mb-4 block">Secure Checkout</span>
+            <h1 class="text-5xl font-black text-white tracking-tighter uppercase">
+                Finalize <span class="italic font-serif font-light text-orange-600 lowercase tracking-normal">Order</span>
+            </h1>
+        </header>
+
+        <div class="grid grid-cols-1 gap-8 reveal">
+            <div class="bg-white/90 backdrop-blur-xl rounded-[2.5rem] p-8 shadow-2xl border border-white/20">
+                <h3 class="text-sm font-black uppercase tracking-widest text-stone-400 mb-6">Your Selection</h3>
+                <div id="checkout-items" class="space-y-4 mb-6">
+                    </div>
+                <div class="border-t border-stone-100 pt-6 flex justify-between items-end">
+                    <div>
+                        <p class="text-[10px] font-black uppercase tracking-widest text-stone-400">Total Amount</p>
+                        <p id="checkout-total" class="text-4xl font-black text-stone-900 tracking-tighter">$0.00</p>
+                    </div>
+                </div>
+            </div>
+
+            <form id="payment-form" class="space-y-6">
+                <div class="bg-white rounded-[2.5rem] p-8 shadow-sm border border-stone-100">
+                    <h3 class="text-sm font-black uppercase tracking-widest text-stone-400 mb-6">Delivery Details</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" id="cust-name" placeholder="Full Name" required class="w-full px-6 py-4 bg-stone-50 rounded-2xl border-none focus:ring-2 focus:ring-orange-600/20 transition-all font-medium">
+                        <input type="tel" id="cust-phone" placeholder="Phone Number" required class="w-full px-6 py-4 bg-stone-50 rounded-2xl border-none focus:ring-2 focus:ring-orange-600/20 transition-all font-medium">
+                    </div>
+                </div>
+
+                <div class="bg-stone-900 rounded-[2.5rem] p-8 shadow-xl text-white">
+                    <h3 class="text-sm font-black uppercase tracking-widest text-stone-500 mb-6">Payment Method</h3>
+                    
+                    <div class="flex gap-4 mb-8">
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="pay-method" value="cash" checked class="hidden peer">
+                            <div class="py-4 text-center rounded-xl border border-stone-700 peer-checked:bg-white peer-checked:text-stone-900 transition-all text-[10px] font-black uppercase tracking-widest">
+                                Cash on Delivery
+                            </div>
+                        </label>
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="pay-method" value="card" class="hidden peer" id="card-toggle">
+                            <div class="py-4 text-center rounded-xl border border-stone-700 peer-checked:bg-white peer-checked:text-stone-900 transition-all text-[10px] font-black uppercase tracking-widest">
+                                Credit / Debit Card
+                            </div>
+                        </label>
+                    </div>
+
+                    <div id="card-details" class="hidden space-y-4 animate-in fade-in slide-in-from-top-4">
+                        <div class="relative">
+                            <input type="text" id="card-num" placeholder="0000 0000 0000 0000" class="w-full px-6 py-4 bg-stone-800 rounded-xl border-none focus:ring-2 focus:ring-orange-600/50 transition-all font-mono">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <input type="text" id="card-exp" placeholder="MM/YY" class="px-6 py-4 bg-stone-800 rounded-xl border-none focus:ring-2 focus:ring-orange-600/50 transition-all font-mono">
+                            <input type="text" id="card-cvv" placeholder="CVV" class="px-6 py-4 bg-stone-800 rounded-xl border-none focus:ring-2 focus:ring-orange-600/50 transition-all font-mono">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-orange-600 text-white py-6 rounded-[2rem] text-sm font-black uppercase tracking-[0.3em] hover:bg-orange-500 transition-all shadow-lg shadow-orange-600/20">
+                    Place Secure Order
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+// --- 1. RENDER CART ITEMS ---
+function renderCheckout() {
+    const cart = JSON.parse(localStorage.getItem('kabab_cart')) || {};
+    const container = document.getElementById('checkout-items');
+    const totalDisplay = document.getElementById('checkout-total');
+    let total = 0;
+
+    const entries = Object.entries(cart);
+
+    if (entries.length === 0) {
+        container.innerHTML = `<p class="text-stone-400 italic py-12 text-center uppercase text-[10px] tracking-widest font-black">Your selection is empty.</p>`;
+        totalDisplay.innerText = "$0.00";
+        return;
+    }
+
+    container.innerHTML = entries.map(([name, details]) => {
+        const itemTotal = details.price * details.qty;
+        total += itemTotal;
+        return `
+            <div class="flex justify-between items-center py-4 border-b border-stone-50">
+                <div class="flex flex-col">
+                    <span class="text-stone-900 font-bold uppercase text-xs tracking-tight">${name}</span>
+                    <span class="text-stone-400 text-[9px] font-black uppercase tracking-widest mt-1">Quantity: ${details.qty}</span>
+                </div>
+                <span class="text-stone-900 font-black tracking-tighter">$${itemTotal.toFixed(2)}</span>
+            </div>
+        `;
+    }).join('');
+
+    totalDisplay.innerText = `$${total.toFixed(2)}`;
+}
+
+// --- 2. CARD UI TOGGLE ---
+document.querySelectorAll('input[name="pay-method"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+        const cardSection = document.getElementById('card-details');
+        if (e.target.value === 'card') {
+            cardSection.classList.remove('hidden');
+        } else {
+            cardSection.classList.add('hidden');
+        }
+    });
+});
+
+// --- 3. CARD FORMATTING ---
+const cardInput = document.getElementById('card-num');
+const expInput = document.getElementById('card-exp');
+
+if(cardInput) {
+    cardInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        let formatted = value.match(/.{1,4}/g)?.join(' ') || '';
+        e.target.value = formatted.substring(0, 19);
+    });
+}
+
+if(expInput) {
+    expInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/[^0-9]/gi, '');
+        if (value.length >= 2) {
+            e.target.value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        } else {
+            e.target.value = value;
+        }
+    });
+}
+
+function validateCardNumber(number) {
+    let digits = number.replace(/\s/g, '').split('').map(Number);
+    for (let i = digits.length - 2; i >= 0; i -= 2) {
+        digits[i] *= 2;
+        if (digits[i] > 9) digits[i] -= 9;
+    }
+    return digits.reduce((a, b) => a + b, 0) % 10 === 0;
+}
+
+// --- 4. SUBMISSION LOGIC ---
+document.getElementById('payment-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const cart = JSON.parse(localStorage.getItem('kabab_cart')) || {};
+    
+    if (Object.keys(cart).length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    const payMethod = document.querySelector('input[name="pay-method"]:checked').value;
+
+    if (payMethod === 'card') {
+        const cardNum = document.getElementById('card-num').value;
+        if (!validateCardNumber(cardNum)) {
+            alert("❌ Invalid Card Number.");
+            return;
+        }
+    }
+
+    // Convert Object to Array for Python
+    const itemsArray = Object.entries(cart).map(([name, details]) => ({
+        name: name,
+        price: details.price,
+        quantity: details.qty
+    }));
+
+    const orderData = {
+        name: document.getElementById('cust-name').value,
+        phone: document.getElementById('cust-phone').value,
+        items: itemsArray,
+        total: document.getElementById('checkout-total').innerText,
+        payment_method: payMethod === 'card' ? 'Prepaid (Card)' : 'Cash on Delivery'
+    };
+
+    try {
+        const response = await fetch('/checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(orderData)
+        });
+
+        if (response.ok) {
+            const result = await response.json(); 
+            localStorage.removeItem('kabab_cart');
+            window.location.href = '/order-success?id=' + result.order_id;
+        } else {
+            alert('Error placing order.');
+        }
+    } catch (err) {
+        console.error("Finalize Error:", err);
+    }
+});
+
+// --- 5. INITIALIZE ---
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+    });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+renderCheckout();
+</script>
+{% endblock %}
